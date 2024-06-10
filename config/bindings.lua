@@ -16,14 +16,14 @@ end
 -- stylua: ignore
 local keys = {
    -- misc/useful --
-   { key = 'F1', mods = 'NONE', action = 'ActivateCopyMode' },
+   { key = 'F6', mods = 'NONE', action = 'ActivateCopyMode' },
    { key = 'F2', mods = 'NONE', action = act.ActivateCommandPalette },
    { key = 'F3', mods = 'NONE', action = act.ShowLauncher },
-   { key = 'F4', mods = 'NONE', action = act.ShowLauncherArgs({ flags = 'FUZZY|TABS' }) },
+   { key = 'F4', mods = 'NONE', action = act.ShowLauncherArgs({ flags = 'TABS' }) },
    {
       key = 'F5',
       mods = 'NONE',
-      action = act.ShowLauncherArgs({ flags = 'FUZZY|WORKSPACES' }),
+      action = act.ShowLauncherArgs({ flags = 'WORKSPACES' }),
    },
    { key = 'F11', mods = 'NONE',    action = act.ToggleFullScreen },
    { key = 'F12', mods = 'NONE',    action = act.ShowDebugOverlay },
@@ -51,7 +51,7 @@ local keys = {
    -- cursor movement --
    { key = 'LeftArrow',  mods = mod.SUPER,     action = act.SendString '\x1bOH' },
    { key = 'RightArrow', mods = mod.SUPER,     action = act.SendString '\x1bOF' },
-   { key = 'Backspace',  mods = mod.SUPER,     action = act.SendString '\x15' },
+   -- { key = 'Backspace',  mods = mod.SUPER,     action = act.SendString '\x15' },
 
    -- copy/paste --
    { key = 'c',          mods = 'CTRL|SHIFT',  action = act.CopyTo('Clipboard') },
@@ -60,8 +60,8 @@ local keys = {
    -- tabs --
    -- tabs: spawn+close
    { key = 't',          mods = mod.SUPER,     action = act.SpawnTab('DefaultDomain') },
-   { key = 't',          mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'WSL:Ubuntu' }) },
-   { key = 'w',          mods = mod.SUPER_REV, action = act.CloseCurrentTab({ confirm = false }) },
+   { key = 't',          mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'WSL:Arch' }) },
+   { key = 'w',          mods = mod.SUPER_REV,     action = act.CloseCurrentTab({ confirm = true }) },
 
    -- tabs: navigation
    { key = '[',          mods = mod.SUPER,     action = act.ActivateTabRelative(-1) },
@@ -69,35 +69,44 @@ local keys = {
    { key = '[',          mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
    { key = ']',          mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
 
+  -- move pane to tab
+  {
+    key = 'm',
+    mods = 'LEADER',
+    action = wezterm.action_callback(function(win, pane)
+      local tab, window = pane:move_to_new_tab()
+    end),
+  },
+
    -- window --
    -- spawn windows
    { key = 'n',          mods = mod.SUPER,     action = act.SpawnWindow },
 
    -- background controls --
+   -- {
+   --    key = [[/]],
+   --    mods = mod.SUPER,
+   --    action = wezterm.action_callback(function(window, _pane)
+   --       backdrops:random(window)
+   --    end),
+   -- },
+   -- {
+   --    key = [[,]],
+   --    mods = mod.SUPER,
+   --    action = wezterm.action_callback(function(window, _pane)
+   --       backdrops:cycle_back(window)
+   --    end),
+   -- },
+   -- {
+   --    key = [[.]],
+   --    mods = mod.SUPER,
+   --    action = wezterm.action_callback(function(window, _pane)
+   --       backdrops:cycle_forward(window)
+   --    end),
+   -- },
    {
-      key = [[/]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:random(window)
-      end),
-   },
-   {
-      key = [[,]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:cycle_back(window)
-      end),
-   },
-   {
-      key = [[.]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         backdrops:cycle_forward(window)
-      end),
-   },
-   {
-      key = [[/]],
-      mods = mod.SUPER_REV,
+      key = 't',
+      mods = 'LEADER',
       action = act.InputSelector({
          title = 'Select Background',
          choices = backdrops:choices(),
@@ -125,7 +134,7 @@ local keys = {
 
    -- panes: zoom+close pane
    { key = 'Enter', mods = mod.SUPER,     action = act.TogglePaneZoomState },
-   { key = 'w',     mods = mod.SUPER,     action = act.CloseCurrentPane({ confirm = false }) },
+   { key = 'w',     mods = mod.SUPER,     action = act.CloseCurrentPane({ confirm = true }) },
 
    -- panes: navigation
    { key = 'k',     mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Up') },

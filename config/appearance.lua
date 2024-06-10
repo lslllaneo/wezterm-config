@@ -9,6 +9,9 @@ return {
    webgpu_power_preference = 'HighPerformance',
    webgpu_preferred_adapter = gpu_adapters:pick_best(),
 
+   initial_cols = 120,
+   initial_rows = 30,
+
    -- color scheme
    colors = colors,
 
@@ -33,7 +36,8 @@ return {
    enable_tab_bar = true,
    hide_tab_bar_if_only_one_tab = false,
    use_fancy_tab_bar = false,
-   tab_max_width = 25,
+   tab_max_width = 30,
+   window_decorations = 'INTEGRATED_BUTTONS|RESIZE',
    show_tab_index_in_tab_bar = false,
    switch_to_last_active_tab_when_closing_tab = true,
 
@@ -44,9 +48,10 @@ return {
       top = 12,
       bottom = 7,
    },
-   window_close_confirmation = 'NeverPrompt',
+   window_close_confirmation = 'AlwaysPrompt',
    window_frame = {
       active_titlebar_bg = '#090909',
+      -- position = { x = x, y = y },
       -- font = fonts.font,
       -- font_size = fonts.font_size,
    },
